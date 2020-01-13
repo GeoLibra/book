@@ -15,6 +15,7 @@ Page({
     isfocus: true,
     numberindex: 0,
     typeList: app.globalData.typeList,
+    mapkey: app.globalData.mapkey,
     typeIndex: 0,
     comment: '',
     cost: '',
@@ -234,7 +235,7 @@ Page({
     }
     db.collection('book').add({
       data: {
-        openid:app.globalData.openid,
+        // openid:app.globalData.openid,
         cost,
         type: typeList[typeIndex],
         time: toTimeStamp(`${date} ${time}`),

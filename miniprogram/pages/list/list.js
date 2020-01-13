@@ -3,15 +3,15 @@ const util = require('../../common/util.js');
 const currentMonthFirst = util.getCurrentMonthFirst;
 const curDate = util.curDate;
 const toTimeStamp = util.toTimeStamp;
+const dateFormat = util.dateFormat;
 const app = getApp();
-const ENV = util.ENV;
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    bookList:[],
   },
 
   /**
@@ -22,20 +22,28 @@ Page({
     const stime = currentMonthFirst();
     console.log(etime, stime);
     wx.cloud.init({
-      env: ENV,
+      env: app.globalData.ENV,
       traceUser: true,
     });
     wx.cloud.callFunction({
       // 云函数名称
-      name: 'querBook',
+      name: 'queryBook',
       // 传给云函数的参数
       data: {
+        // openid: app.globalData.openid,
         stime: toTimeStamp(stime),
         etime: toTimeStamp(etime),
       },
     })
       .then(res => {
-        console.log(res.result) // 3
+        const data = res.result.data.map(item => 
+        {
+          return item.time = dateFormat("YYYY-mm-dd HH:MM",new Date(item.time))
+        }
+        );
+        this.setData({
+          bookList: res.result.data,
+        });
       })
       .catch(console.error)
   },

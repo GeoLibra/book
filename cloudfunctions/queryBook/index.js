@@ -13,32 +13,26 @@ exports.main = async(event, context) => {
     OPENID,
     APPID
   } = cloud.getWXContext()
+  console.log(OPENID);
   const countResult = await db.collection('book').where({
-    _openid: OPENID,
+    '_openid': OPENID,
     time: _.gte(event.stime),
     etime: _.lte(event.etime)
   }).count();
+  console.log(countResult);
   const total = countResult.total;
   // 计算需分几次取
   const batchTimes = Math.ceil(total / 100)
   // 承载所有读操作的 promise 的数组
   const tasks = []
-  if (batchTimes === 0) {
-    const promise = db.collection('book').where({
-      _openid: OPENID,
+  for (let i = 0; i < batchTimes; i++) {
+    const promise = db.collection('book').skip(i * MAX_LIMIT).where({
+      '_openid':OPENID,
       time: _.gte(event.stime),
       etime: _.lte(event.etime)
     }).limit(MAX_LIMIT).get()
-    tasks.push(promise)
-  } else {
-    for (let i = 0; i < batchTimes; i++) {
-      const promise = db.collection('book').skip(i * MAX_LIMIT).where({
-        _openid: OPENID,
-        time: _.gte(event.stime),
-        etime: _.lte(event.etime)
-      }).limit(MAX_LIMIT).get()
-      tasks.push(promise)
-    }
+    console.log(promise);
+    tasks.push(promise);
   }
 
   // 等待所有
