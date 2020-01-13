@@ -25,6 +25,8 @@ Page({
       env: app.globalData.ENV,
       traceUser: true,
     });
+    console.log(toTimeStamp(stime))
+    console.log(toTimeStamp(etime))
     wx.cloud.callFunction({
       // 云函数名称
       name: 'queryBook',

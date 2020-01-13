@@ -37,7 +37,6 @@ App({
     this.globalData = {
       userInfo: null,
       typeList: ['餐饮', '交通', '娱乐', '购物', '旅行', '房租', '水电', '服饰美容', '学习', '其他'],
-   
     }
   }
 })
