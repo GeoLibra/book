@@ -15,12 +15,14 @@ exports.main = async(event, context) => {
   } = cloud.getWXContext()
   console.log(OPENID);
   console.log(event);
-  const countResult = await db.collection('book').where(
+  const countResult = await db.collection('books')
+  .where(
     _.and([
       { '_openid': OPENID},
-      { time: _.gte(parseInt(event.stime))},
-      { time: _.lte(parseInt(event.etime))}
-    ])).count();
+      { time: _.gte(new Date(event.stime+':00'))},
+      { time: _.lte(new Date(event.etime+':00'))}
+    ]))
+    .count();
   console.log(countResult);
   const total = countResult.total;
   // 计算需分几次取
@@ -28,12 +30,14 @@ exports.main = async(event, context) => {
   // 承载所有读操作的 promise 的数组
   const tasks = []
   for (let i = 0; i < batchTimes; i++) {
-    const promise = db.collection('book').where(
+    const promise = db.collection('books')
+    .where(
       _.and([
         { '_openid': OPENID },
-        { time: _.gte(parseInt(event.stime)) },
-        { time: _.lte(parseInt(event.etime)) }
-      ])).skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
+        { time: _.gte(new Date(event.stime + ':00')) },
+        { time: _.lte(new Date(event.etime + ':00')) }
+      ]))
+      .skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
     tasks.push(promise);
   }
 
