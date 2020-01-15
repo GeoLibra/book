@@ -8,7 +8,7 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const mdata = event.data;
   console.log(mdata)
-  const result = await db.collection('books').add({
+  const result = await db.collection('book').add({
     data: {
       ...mdata,
       time: new Date(mdata.time)

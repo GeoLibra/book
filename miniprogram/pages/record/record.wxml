@@ -50,7 +50,7 @@
           
         </view>
         <view class="map-container" hover-class="none" hover-stop-propagation="false" style="width: 100%; height:300px;">
-            <map id="map" subkey="{{mapkey}}" longitude="{{longitude}}" latitude=" {{latitude}}" markers="{{markers}}" scale="{{scale}}" show-location style="width: 100%; height: 100%;" data-markers="{{markers}}">
+            <map id="map" subkey="FTKBZ-LVICU-A7WVG-4DAGQ-7D266-RNBKP" longitude="{{longitude}}" latitude=" {{latitude}}" markers="{{markers}}" scale="{{scale}}" show-location style="width: 100%; height: 100%;" data-markers="{{markers}}">
             </map>
           </view>
         <view class="btn-area">

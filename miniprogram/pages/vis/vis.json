@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "图表可视化",
-  "usingComponents": {}
+  "usingComponents": {
+    "f2": "@antv/wx-f2"
+  }
 }

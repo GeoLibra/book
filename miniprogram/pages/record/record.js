@@ -15,7 +15,6 @@ Page({
     isfocus: true,
     numberindex: 0,
     typeList: app.globalData.typeList,
-    mapkey: app.globalData.mapkey,
     typeIndex: 0,
     comment: '',
     cost: '',
@@ -217,7 +216,7 @@ Page({
       time,
       typeIndex
     } = this.data;
-    console.log(this.data);
+   
     const typeList = app.globalData.typeList;
     if (!app.globalData.openid){
       wx.showToast({
@@ -235,10 +234,10 @@ Page({
     }
     db.collection('book').add({
       data: {
-        // openid:app.globalData.openid,
+        openid:app.globalData.openid,
         cost,
         type: typeList[typeIndex],
-        time: toTimeStamp(`${date} ${time}`),
+        time: new Date(`${date} ${time}`),
         comment,
         name: locName,
         address: address,

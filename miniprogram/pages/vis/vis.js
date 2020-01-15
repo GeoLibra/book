@@ -1,44 +1,65 @@
 // pages/addFunction/addFunction.js
-
-const code = `// 云函数入口函数
-exports.main = (event, context) => {
-  console.log(event)
-  console.log(context)
-  return {
-    sum: event.a + event.b
-  }
-}`
+const util = require('../../common/util.js');
+const currentMonthFirst = util.getCurrentMonthFirst;
+const curDate = util.curDate;
+const toTimeStamp = util.toTimeStamp;
+const dateFormat = util.dateFormat;
 const app = getApp();
 Page({
-
   data: {
-    result: '',
-    canIUseClipboard: wx.canIUse('setClipboardData'),
-  },
-
-  onLoad: function (options) {
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              console.log(res);
-              this.setData({
-                userInfo: res.userInfo
-              });
+    onInitChart(F2, config) {
+      const chart = new F2.Chart(config);
+      const etime = curDate(new Date()).join(' ');
+      const stime = currentMonthFirst();
+      console.log(etime, stime);
+      wx.cloud.init({
+        env: app.globalData.ENV,
+        traceUser: true,
+      });
+      wx.cloud.callFunction({
+        // 云函数名称
+        name: 'queryBook',
+        // 传给云函数的参数
+        data: {
+          // openid: app.globalData.openid,
+          stime: stime,
+          etime: etime
+        },
+      })
+        .then(res => {
+          const data = res.result.data.map(item => 
+          {
+            return {
+              ...item,
+              time: dateFormat("YYYY-mm-dd HH:MM", new Date(item.time))
+            };
+          }
+          );
+          console.log(data)
+           chart.source(data, {
+            date: {
+              range: [0, 1],
+              type: 'timeCat',
+              mask: 'MM-DD'
+            },
+            value: {
+              max: 300,
+              tickCount: 4
             }
-          })
-        }else{
-        
-        }
-      },
-      fail: error => {
-        console.log(error);
-      }
-    });
+          });
+          chart.line().position('time*cost').adjust('stack');
+          chart.axis('time', {
+            label:{
+              autoHide:true
+            }
+          });
+          chart.render();
+          // 注意：需要把chart return 出来
+          return chart;
+        })
+        .catch(console.error)
+      
+      
+    }
   },
-
-})
-
+});
