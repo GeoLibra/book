@@ -25,26 +25,28 @@ Page({
       env: app.globalData.ENV,
       traceUser: true,
     });
-    console.log(toTimeStamp(stime))
-    console.log(toTimeStamp(etime))
     wx.cloud.callFunction({
       // 云函数名称
       name: 'queryBook',
       // 传给云函数的参数
       data: {
         // openid: app.globalData.openid,
-        stime: toTimeStamp(stime),
-        etime: toTimeStamp(etime),
+        stime: stime,
+        etime: etime
       },
     })
       .then(res => {
         const data = res.result.data.map(item => 
         {
-          return item.time = dateFormat("YYYY-mm-dd HH:MM",new Date(item.time))
+          return {
+            ...item,
+            time: dateFormat("YYYY-mm-dd HH:MM", new Date(item.time))
+          };
         }
         );
+        console.log(data)
         this.setData({
-          bookList: res.result.data,
+          bookList: data,
         });
       })
       .catch(console.error)
