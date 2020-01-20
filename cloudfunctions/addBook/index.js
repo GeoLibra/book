@@ -6,12 +6,11 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
-  const mdata = event.data;
-  console.log(mdata)
-  const result = await db.collection('book').add({
+  const mdata = event;
+  const result = await db.collection('books').add({
     data: {
       ...mdata,
-      time: new Date(mdata.time)
+      stime: new Date(mdata.stime)
     },
   })
   return {

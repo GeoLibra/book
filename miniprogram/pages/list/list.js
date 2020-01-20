@@ -38,13 +38,35 @@ Page({
       .then(res => {
         const data = res.result.data.map(item => 
         {
+          // const time = dateFormat("YYYY-mm-dd HH:MM", new Date(item.stime));
+          // let cost = 0 ;
+          // if(String(cost).indexOf('.')===-1){
+          //   cost =parseInt(cost);
+          // }else{
+          //   cost =parseFlo(cost);
+          // }
+          // wx.cloud.callFunction({
+          //   // 云函数名称
+          //   name: 'addBook',
+          //   // 传给云函数的参数
+          //   data: {
+          //     // openid: app.globalData.openid,
+          //     ...item,
+          //     cost: parseInt(item.cost),
+          //     stime: item.time,
+          //     date: time.split(' ')[0],
+          //     time: time.split(' ')[1]
+          //   },
+          // })
+          //   .then(res => {console.log(res)});
+
           return {
             ...item,
-            time: dateFormat("YYYY-mm-dd HH:MM", new Date(item.time))
+            time: dateFormat("YYYY-mm-dd HH:MM", new Date(item.stime))
           };
         }
         );
-        console.log(data)
+        console.log(data.length)
         this.setData({
           bookList: data,
         });

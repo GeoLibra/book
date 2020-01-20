@@ -13,34 +13,20 @@ exports.main = async(event, context) => {
     OPENID,
     APPID
   } = cloud.getWXContext()
-  console.log(OPENID);
-  console.log(event);
   const $ = db.command.aggregate
-   db.collection('books').aggregate()
+  const data = await db.collection('books').aggregate()
   .group({
-    // 按 category 字段分组
-    _id: '$time',
-    // 让输出的每组记录有一个 avgSales 字段，其值是组内所有记录的 sales 字段的平均值
-    date: $.avg('$time')
-  })
-  .end()
-  // const countResult = await db.collection('book')
-  // // .where(
-  // //   _.and([
-  // //     { '_openid': OPENID},
-  // //     { time: _.gte(new Date(event.stime+':00'))},
-  // //     { time: _.lte(new Date(event.etime+':00'))}
-  // //   ]))
-  //   .groupBy(  
-  //     {
-  //       time : function(doc){
-  //         var date = new Date(doc.time);
-  //         var dateKey = ""+date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-  //         return {'day':dateKey}; //33
-  //       }
-  //     }
-  // )  
-  //   .count();
+     // 按 date 字段分组
+     _id: {
+      date:'$date',
+    },
+    // 让输出的每组记录有一个 cout 字段，其值是组内所有记录的 cost 字段值和
+    cost: $.sum('$cost')
+  }).sort({
+    _id:-1
+    }).end();
+  console.log(data);
+  return data;
   // console.log(countResult);
   // const total = countResult.total;
   // // 计算需分几次取
@@ -48,22 +34,22 @@ exports.main = async(event, context) => {
   // // 承载所有读操作的 promise 的数组
   // const tasks = []
   // for (let i = 0; i < batchTimes; i++) {
-  //   const promise = db.collection('book')
-  //   // .where(
-  //   //   _.and([
-  //   //     { '_openid': OPENID },
-  //   //     { time: _.gte(new Date(event.stime + ':00')) },
-  //   //     { time: _.lte(new Date(event.etime + ':00')) }
-  //   //   ]))
-  //     .orderBy('time', 'desc').skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
+  //   const promise = db.collection('books').aggregate()
+  //   .group({
+  //     // 按 category 字段分组
+  //     _id: '$date',
+  //     // 让输出的每组记录有一个 avgSales 字段，其值是组内所有记录的 sales 字段的平均值
+  //     dayCost: $.sum('$cost')
+  //   })
+  //     .orderBy('date', 'desc').skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
   //   tasks.push(promise);
   // }
 
   // 等待所有
-  return (await Promise.all(tasks)).reduce((acc, cur) => {
-    return {
-      data: acc.data.concat(cur.data),
-      errMsg: acc.errMsg,
-    }
-  })
+  // return (await Promise.all(tasks)).reduce((acc, cur) => {
+  //   return {
+  //     data: acc.data.concat(cur.data),
+  //     errMsg: acc.errMsg,
+  //   }
+  // })
 }

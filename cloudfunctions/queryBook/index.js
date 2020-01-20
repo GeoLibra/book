@@ -15,12 +15,12 @@ exports.main = async(event, context) => {
   } = cloud.getWXContext()
   console.log(OPENID);
   console.log(event);
-  const countResult = await db.collection('book')
+  const countResult = await db.collection('books')
   .where(
     _.and([
       { '_openid': OPENID},
-      { time: _.gte(new Date(event.stime+':00'))},
-      { time: _.lte(new Date(event.etime+':00'))}
+      { stime: _.gte(new Date(event.stime+':00'))},
+      { stime: _.lte(new Date(event.etime+':00'))}
     ]))
     .count();
   console.log(countResult);
@@ -30,14 +30,14 @@ exports.main = async(event, context) => {
   // 承载所有读操作的 promise 的数组
   const tasks = []
   for (let i = 0; i < batchTimes; i++) {
-    const promise = db.collection('book')
+    const promise = db.collection('books')
     .where(
       _.and([
         { '_openid': OPENID },
-        { time: _.gte(new Date(event.stime + ':00')) },
-        { time: _.lte(new Date(event.etime + ':00')) }
+        { stime: _.gte(new Date(event.stime + ':00')) },
+        { stime: _.lte(new Date(event.etime + ':00')) }
       ]))
-      .orderBy('time', 'desc').skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
+      .orderBy('stime', 'desc').skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
     tasks.push(promise);
   }
 

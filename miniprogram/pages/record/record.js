@@ -232,12 +232,21 @@ Page({
       })
       return;
     }
-    db.collection('book').add({
+
+    let costValue = 0;
+    if(String(cost).indexOf('.')===-1){
+      costValue = parseInt(cost);
+    }else{
+      costValue=parseFloat(cost);
+    }
+    db.collection('books').add({
       data: {
         openid:app.globalData.openid,
-        cost,
+        cost: costValue,
         type: typeList[typeIndex],
-        time: new Date(`${date} ${time}`),
+        stime: new Date(`${date} ${time}`),
+        date: date,
+        time: time,
         comment,
         name: locName,
         address: address,
