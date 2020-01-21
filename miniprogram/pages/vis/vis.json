@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "图表可视化",
   "usingComponents": {
-    "f2": "@antv/wx-f2"
+    "ff-canvas": "@antv/f2-canvas"
   }
 }

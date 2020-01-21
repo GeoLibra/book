@@ -1,6 +1,6 @@
 <view class="container">
   <view class="sum">{{sumCost}}</view>
   <view class="chart">
-  <f2 onInit="{{onInitChart}}" />
+    <ff-canvas id="column-dom" canvas-id="column" opts="{{ opts }}"></ff-canvas>
   </view>
 </view>

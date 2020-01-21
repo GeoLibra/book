@@ -56,10 +56,16 @@ const dateFormat=(fmt, date)=>{
   };
   return fmt;
 }
+const getWeekDay= (date)=>{
+  const weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];  
+  const myDate = new Date(Date.parse(date)); 
+  return weekDay[myDate.getDay()];
+}
 module.exports = {
   formatTime: formatTime,
   curDate: curDate,
   getCurrentMonthFirst: getCurrentMonthFirst,
   toTimeStamp: toTimeStamp,
   dateFormat: dateFormat,
+  getWeekDay: getWeekDay
 }

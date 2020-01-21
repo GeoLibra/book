@@ -8,6 +8,7 @@
   "author": "GeoLibra",
   "license": "MIT",
   "dependencies": {
+    "@antv/f2-canvas": "^1.0.5",
     "@antv/wx-f2": "^2.0.0"
   },
   "devDependencies": {},

@@ -21,6 +21,7 @@
 			"outputPath": ""
 		}
 	},
+	"appid": "",
 	"projectname": "miniprogram-2",
 	"libVersion": "2.8.1",
 	"simulatorType": "wechat",
