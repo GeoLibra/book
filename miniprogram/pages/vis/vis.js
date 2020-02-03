@@ -32,7 +32,7 @@ function initChart(canvas, width, height, F2) { // 使用 F2 绘制图表
     onShow(ev) {
       const { items } = ev;
       items[0].name = null;
-      items[0].name = getWeekDay(items[0].title);
+      items[0].name = `${items[0].title} ${getWeekDay(items[0].origin.date)}`;
       // items[0].name = getWeekDay(items[0].date);
       items[0].value = '¥ ' + items[0].value;
     }
