@@ -10,6 +10,13 @@ let chart = null;
 function initChart(canvas, width, height, F2) { // 使用 F2 绘制图表
   const etime = curDate(new Date()).join(' ');
   const stime = currentMonthFirst();
+  const dateValue=[];
+  for (let i = new Date(stime); i <= new Date(etime);){
+    dateValue.push(dateFormat('YYYY-mm-dd', i));
+    const dateTime = i.setDate(i.getDate() + 1);
+    i = new Date(dateTime);
+  }
+  console.log(dateValue);
   chart = new F2.Chart({
     el: canvas,
     width,
@@ -22,8 +29,9 @@ function initChart(canvas, width, height, F2) { // 使用 F2 绘制图表
     },
     date: {
       type: 'timeCat',
-      range: [ 0, 1 ],
-      tickCount: 5,
+      // range: [0, 1],
+      // tickCount: 5,
+      values: dateValue,
       mask: 'MM-DD',
     }
   });
@@ -55,7 +63,7 @@ Page({
     opts: {
       onInit: initChart
     },
-    sumCost:0,
+    sumCost: 0,
   },
   onLoad: function (options) {
     wx.cloud.init({
@@ -77,16 +85,17 @@ Page({
     })
       .then(res => {
         let sumCost = 0;
-        const data = res.result.list.map((item)=>{
+        const data = res.result.list.map((item) => {
           sumCost += item.cost;
           return {
-            cost:item.cost,
-            date:item._id.date,
+            cost: item.cost,
+            date: item._id.date,
           };
         });
         that.setData({
-          sumCost:sumCost.toFixed(2)
+          sumCost: sumCost.toFixed(2)
         });
+        console.log(data)
         let chartDom = that.selectComponent('#column-dom');
         chartDom.chart.changeData(data);
       });
