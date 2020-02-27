@@ -10,13 +10,13 @@ let chart = null;
 function initChart(canvas, width, height, F2) { // 使用 F2 绘制图表
   const etime = curDate(new Date()).join(' ');
   const stime = currentMonthFirst();
+  // const stime = '2020-01-01';
   const dateValue=[];
   for (let i = new Date(stime); i <= new Date(etime);){
     dateValue.push(dateFormat('YYYY-mm-dd', i));
     const dateTime = i.setDate(i.getDate() + 1);
     i = new Date(dateTime);
   }
-  console.log(dateValue);
   chart = new F2.Chart({
     el: canvas,
     width,
@@ -64,14 +64,32 @@ Page({
       onInit: initChart
     },
     sumCost: 0,
+    month: dateFormat('YYYY-mm', new Date()),
   },
   onLoad: function (options) {
+    const etime = dateFormat('YYYY-mm-dd', new Date());
+    const stime = currentMonthFirst();
+    this.queryByMonth(stime, etime);
+  },
+  bindDateChange: function (e) {
+    console.log(e);
+    this.setData({
+      month: e.detail.value
+    })
+
+    const year = new Date(e.detail.value).getFullYear();
+    const month = new Date(e.detail.value).getMonth();
+    const stime = new Date(year,month,1);
+    const etime = new Date(year, month, 0);
+    this.queryByMonth(stime, etime);
+  },
+  queryByMonth: function (stime, etime){
+    console.log(stime,etime);
     wx.cloud.init({
       env: app.globalData.ENV,
       traceUser: true,
     });
-    const etime = curDate(new Date()).join(' ');
-    const stime = currentMonthFirst();
+    
     const that = this;
     wx.cloud.callFunction({
       // 云函数名称

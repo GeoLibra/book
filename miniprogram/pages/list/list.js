@@ -18,8 +18,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    const date = new Date();
+    date.setDate(1);
     const etime = curDate(new Date()).join(' ');
-    const stime = currentMonthFirst();
+    const stime = dateFormat('YYYY-mm-dd', date)+' 00:00';
     console.log(etime, stime);
     wx.cloud.init({
       env: app.globalData.ENV,

@@ -1,5 +1,4 @@
 //app.js
-const util = require('./common/util.js');
 App({
   data: {
     userInfo: null,
@@ -14,7 +13,7 @@ App({
         //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
         //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
         //   如不填则使用默认环境（第一个创建的环境）
-        env: util.ENV,
+        env: 'hgis-0317w',
         traceUser: true,
       });
       // 调用云函数
@@ -37,7 +36,8 @@ App({
     this.globalData = {
       userInfo: null,
       typeList: ['餐饮', '交通出行', '娱乐', '购物', '旅行', '房租', '水电', '服饰', '学习', '其他'],
- 
+      env: 'hgis-0317w',
+      
     }
   }
 })

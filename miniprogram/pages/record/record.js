@@ -1,6 +1,6 @@
 // pages/record/record.js
-
 const util = require('../../common/util.js');
+const dateTimePicker = require('../../common/dateTimePicker.js');
 const curDate = util.curDate;
 const toTimeStamp = util.toTimeStamp;
 const app = getApp();
@@ -26,6 +26,13 @@ Page({
     address: '',
     longitude: 105.30815,
     latitude: 39.915726,
+    unitList: ['￥','$'],
+    unitIndex: 0,
+    amoutType: 'cost',
+    dateTime: null,
+    dateTimeArray: null,
+    startYear: 2000,
+    endYear: 2050
   },
 
   /**
@@ -56,6 +63,17 @@ Page({
       }
     });
     
+    // 获取完整的年月日 时分秒，以及默认显示的数组
+    const obj = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
+    const obj1 = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
+    // 精确到分的处理，将数组的秒去掉
+    var lastArray = obj1.dateTimeArray.pop();
+    var lastTime = obj1.dateTime.pop();
+    console.log(obj);
+    this.setData({
+      dateTime: obj.dateTime,
+      dateTimeArray: obj.dateTimeArray,
+    });
   },
 
   /**
@@ -194,15 +212,19 @@ Page({
       typeIndex: e.detail.value
     })
   },
-  dateChange: function(e) {
-    this.setData({
-      date: e.detail.value
-    })
+  changeDateTime(e) {
+    this.setData({ dateTime: e.detail.value });
   },
-  timeChange: function(e) {
+  changeDateTimeColumn(e) {
+    var arr = this.data.dateTime, dateArr = this.data.dateTimeArray;
+
+    arr[e.detail.column] = e.detail.value;
+    dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
+
     this.setData({
-      time: e.detail.value
-    })
+      dateTimeArray: dateArr,
+      dateTime: arr
+    });
   },
   formSubmit: function(e) {
     const { cost,comment } = e.detail.value;
@@ -212,11 +234,13 @@ Page({
       address,
       longitude,
       latitude,
-      date,
-      time,
-      typeIndex
+      typeIndex,
+      dateTime,
+      dateTimeArray,
+      amoutType
     } = this.data;
-   
+    const date = `${dateTimeArray[0][dateTime[0]]}-${dateTimeArray[1][dateTime[1]]}-${dateTimeArray[2][dateTime[2]]}`;
+    const time = `${dateTimeArray[3][dateTime[3]]}:${dateTimeArray[4][dateTime[4]]}`;
     const typeList = app.globalData.typeList;
     if (!app.globalData.openid){
       wx.showToast({
@@ -251,7 +275,8 @@ Page({
         name: locName,
         address: address,
         longitude,
-        latitude
+        latitude,
+        amoutType
       },
       success: res => {
         wx.showToast({
@@ -271,5 +296,18 @@ Page({
   },
   formReset: function(e) {
     console.log(e);
+  },
+  unitChange: function(e){
+    console.log(e.detail)
+    this.setData({
+      unitIndex: e.detail.value
+    })
+  },
+  amoutTypeChange:function(e){
+    const { type } = e.currentTarget.dataset;
+    console.log(type);
+    this.setData({
+      amoutType: type,
+    });
   }
 })

@@ -27,7 +27,9 @@ const getCurrentMonthFirst=()=>{
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
-  return [year, month, day].map(formatNumber).join('-')+' 00:00';
+  // return [year, month, day].map(formatNumber).join('-')+' 00:00';
+  return dateFormat('YYYY-mm-dd',date);
+
 }
 const formatNumber=(n)=> {
   n = n.toString()

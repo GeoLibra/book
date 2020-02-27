@@ -35,7 +35,7 @@
   background: #E6F3F9;
 }
 .name{
-    max-width:50%;
+  max-width:50%;
   overflow: auto;
  white-space:nowrap;
 }
