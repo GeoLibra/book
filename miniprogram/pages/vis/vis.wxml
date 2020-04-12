@@ -1,15 +1,15 @@
 <view class="container">
-<view class="header">
-  <view class="date">
-  <picker mode="date" value="{{date}}" bindchange="bindDateChange" fields="month">
-    <view class="picker">
-      {{month}}
-    </view>
-  </picker>
-  </view>
-  <view class="sum">支出：{{sumCost}}</view>
-</view>
-  <view class="chart">
-    <ff-canvas id="column-dom" canvas-id="column" opts="{{ opts }}"></ff-canvas>
-  </view>
+	<view class="header">
+		<view class="date">
+			<picker mode="date" value="{{date}}" bindchange="bindDateChange" fields="month">
+				<view class="picker">
+					{{month}}
+				</view>
+			</picker>
+		</view>
+		<view class="sum">支出：{{sumCost}}</view>
+	</view>
+	<view class="chart-container">
+		<ec-canvas type="2d" id="mychart" canvas-id="mychart" ec="{{ ec }}"></ec-canvas>
+	</view>
 </view>

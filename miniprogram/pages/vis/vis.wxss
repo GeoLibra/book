@@ -17,15 +17,11 @@
 .sum {
   margin-right: 10px;
 }
-.chart {
+.chart-container{
+  height: 250px;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
 }
-#column-dom{
-  height: 200px;
+ec-canvas {
   width: 100%;
+  height: 100%;
 }

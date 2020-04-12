@@ -14,7 +14,18 @@ exports.main = async(event, context) => {
     APPID
   } = cloud.getWXContext()
   const $ = db.command.aggregate
-  const data = await db.collection('books').aggregate()
+  const year = new Date(event.time).getFullYear();
+  const month = new Date(event.time).getMonth()+1;
+  const data = await db.collection('books')
+  .aggregate()
+  .addFields({
+    year: $.year('$stime'),
+    month: $.month('$stime')
+  })
+  .match({
+    year: db.command.eq(year),
+    month: db.command.eq(month)
+  })
   .group({
      // 按 date 字段分组
      _id: {
@@ -23,7 +34,7 @@ exports.main = async(event, context) => {
     // 让输出的每组记录有一个 cout 字段，其值是组内所有记录的 cost 字段值和
     cost: $.sum('$cost')
   }).sort({
-    _id:-1
+    _id:1
     }).end();
   console.log(data);
   return data;
