@@ -13,7 +13,7 @@ exports.main = async(event, context) => {
     OPENID,
     APPID
   } = cloud.getWXContext()
-  const $ = db.command.aggregate
+  const $ = db.command.aggregate;
   const year = new Date(event.time).getFullYear();
   const month = new Date(event.time).getMonth()+1;
   const data = await db.collection('books')

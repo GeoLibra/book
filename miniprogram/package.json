@@ -1,12 +1,28 @@
-{
-  "name": "miniprogram",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {}
-}
+ wx.cloud.callFunction({
+    // 云函数名称
+    name: 'queryGroupBy',
+    // 传给云函数的参数
+    data: {
+      // openid: app.globalData.openid,
+      stime: stime,
+      etime: etime
+    },
+  })
+    .then(res => {
+      let values=[];
+      const data = res.result.list.map((item)=>{
+        return {
+          cost:item.cost,
+          date:item._id.date,
+        };
+      });
+      
+      wx.cloud.init({
+        env: app.globalData.ENV,
+        traceUser: true,
+      });
+      
+      let salesTrend = this.selectComponent('#line4-dom');
+      salesTrend.chart.changeData(app.globalData.trade.salesTrendData.salesTrends)
+    })
+    .catch(console.error);

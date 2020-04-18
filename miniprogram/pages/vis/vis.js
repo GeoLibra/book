@@ -75,10 +75,8 @@ Page({
   },
   onLoad: function (options) {
     const etime = dateFormat('YYYY-mm-dd', new Date());
-    const stime = currentMonthFirst();
     setTimeout(() => {
-      this.queryByMonth(stime, etime);
-
+      this.queryByMonth(etime);
     }, 0);
   },
   bindDateChange: function (e) {

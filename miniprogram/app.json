@@ -2,7 +2,9 @@
   "pages": [
     "pages/vis/vis",
     "pages/record/record",
-    "pages/list/list"
+    "pages/list/list",
+    "pages/account",
+    "pages/account/account"
   ],
   "tabBar": {
     "selectedColor": "#1890ff",
@@ -20,7 +22,7 @@
         "iconPath": "images/record.png"
       },
       {
-        "pagePath": "pages/list/list",
+        "pagePath": "pages/account/account",
         "text": "账单",
         "selectedIconPath": "images/slist.png",
         "iconPath": "images/list.png"
