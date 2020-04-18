@@ -1,0 +1,46 @@
+{
+  "pages": [
+    "pages/vis/vis",
+    "pages/record/record",
+    "pages/list/list",
+    "pages/account/account",
+    "pages/modify/modify"
+  ],
+  "tabBar": {
+    "selectedColor": "#1890ff",
+    "color": "#000",
+    "list": [
+      {
+        "pagePath": "pages/vis/vis",
+        "selectedIconPath": "images/schart.png",
+        "iconPath": "images/chart.png",
+        "text": "图表"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "text": "记账",
+        "iconPath": "images/record.png"
+      },
+      {
+        "pagePath": "pages/account/account",
+        "text": "账单",
+        "selectedIconPath": "images/slist.png",
+        "iconPath": "images/list.png"
+      }
+    ]
+  },
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "随手记",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  }
+}

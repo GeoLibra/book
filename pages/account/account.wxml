@@ -1,0 +1,53 @@
+<view class="container">
+	<view class="header">
+		<view class="date">
+			<picker mode="date" value="{{date}}" bindchange="bindDateChange" fields="month">
+				<view class="picker">
+					{{month}}
+				</view>
+			</picker>
+		</view>
+		<view class="sum">{{sumCost}}</view>
+	</view>
+  
+	<scroll-view  scroll-y="true" class="account-content">
+    <block wx:for="{{accountList}}" wx:key="index">
+		<view class="account-container">
+			<view class="day-container">
+				<view class="top">
+					<view class="left">
+						<view class="day-date">{{dateList[index]}}</view>
+						<view class="weekend">{{weekday[index]}}</view>
+					</view>
+					<view class="right">
+						<view class="output">{{dayCost[index]}}</view>
+						<!-- <view class="income">收:</view> -->
+					</view>
+				</view>
+				<block wx:for="{{item.dayData}}" wx:key="idx" wx:for-index="idx" wx:for-item="oneDay">
+					<view class="account-list">
+						<view class="account-item" bindtap="itemClick" data-day="{{oneDay}}">
+							<view class="img-container">
+								<image class="class-img" mode="scaleToFill" src="{{classImg[oneDay.type]}}"></image>
+							</view>
+							<view class="consumer-details" data-border="{{item.dayData.length>1 && idx!== item.dayData.length-1}}">
+								<view class="detail-left">
+									<view class="account-type">{{oneDay.type}}</view>
+									<view class="time-masg">
+										<view class="account-time">{{oneDay.time}}</view>
+										<view class="account-divide" wx:if="{{oneDay.comment}}"></view>
+										<view class="account-msg">{{oneDay.comment}}</view>
+									</view>
+								</view>
+								<view class="detail-right">
+									{{oneDay.cost}}
+								</view>
+							</view>
+						</view>
+					</view>
+				</block>
+			</view>
+		</view>
+	</block>
+  </scroll-view>
+</view>

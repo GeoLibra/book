@@ -1,0 +1,171 @@
+/* pages/record/record.wxss */
+@import "../../common/style.wxss";
+.type {
+  margin-top: 20px;
+}
+.comment {
+  margin-top: 20px;
+}
+.time-area{
+ margin-top: 20px;
+}
+.time-container {
+  display: flex;
+}
+.time{
+  margin-left: 10px;
+}
+.location {
+  margin-top: 20px;
+}
+.loc-name {
+  width: 100%;
+  height: 100%;
+  max-width: 280px;
+  overflow: auto;
+  white-space: nowrap; 
+}
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+.cost{
+  flex: 1;
+  text-align: center;
+}
+.cost[data-tab="cost"]{
+  font-weight: bold;
+}
+.income{
+  flex: 1;
+  text-align: center;
+}
+.income[data-tab="income"]{
+  font-weight: bold;
+}
+.contnet{
+  width: 100%;
+  margin-top: 20px;
+}
+
+.amount{
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 8px;
+  height: 45px;
+  background:  #ff4d4f;
+  opacity: 0.5;
+  display: flex;
+  justify-content: space-around;
+}
+.amount[data-tab="income"]{
+  background:  #1890ff;
+}
+.unit{
+  padding: 0 5px;
+  width: 20%;  
+  height: 45px;
+  line-height: 45px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+}
+.amount-input{
+  width: 70%;
+  height: 100%;
+  color: #fff;
+  font-size: 18px;
+  text-align: right;
+}
+.attach{
+  background: #fff;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+.consumption-item{
+  display: flex;
+  position: relative;
+  align-items: center;
+  height: 40px;
+  padding: 0 20px;
+}
+.left{
+  height: 40px;
+  line-height: 40px;
+  width: 20%;
+  font-weight: bold;
+}
+.center{
+  height: 100%;
+  width: 80%;
+  display: flex;
+  align-items: center;
+}
+.picker{
+  width: 100%;
+}
+.center-content {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.center-input {
+  flex: 5;
+}
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+.arrow {
+  border-top: 1px solid;
+  border-right: 1px solid;
+  width: 12px;
+  height: 12px;
+  border-color: #000;
+  transform: rotate(45deg);
+}
+.comment-content {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  width: 100%;
+}
+.comment-input{
+  flex: 5;
+}
+.right{
+  flex: 1;
+}
+.loc-container {
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 90%;
+  background: #fff;
+  border-radius: 10px;
+}
+.loc-content {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+.btn-area {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+.save-btn {
+  background: #1890ff;
+  border-radius: 20px;
+  color: #fff;
+}
+.reset-btn {
+  background: #ff4d4f;
+  border-radius: 20px;
+  color: #fff;
+}

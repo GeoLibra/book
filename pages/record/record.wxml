@@ -1,0 +1,81 @@
+<view class="container">
+<form bindsubmit="formSubmit" bindreset="formReset">
+  <view class="header">
+    <view class="cost" data-type="cost" data-tab="{{amoutType}}" bindtap="amoutTypeChange">支出</view>
+    <view class="income" data-type="income" data-tab="{{amoutType}}" bindtap="amoutTypeChange">收入</view>
+  </view>
+  <view class="contnet">
+    <view class="amount" data-tab="{{amoutType}}">
+      <picker name="unit" value="{{unitIndex}}" range="{{unitList}}" bindchange="unitChange">
+        <view class="unit" name="member">{{unitList[unitIndex]}}</view>
+      </picker>
+      <input name="cost" class="amount-input" type="digit" placeholder="0.00" value='{{cost}}' placeholder-style="color:#fff;" />
+    </view>
+
+    <view class="attach">
+      <view class="consumption-item">
+        <view class="left">类别</view>
+        <view class="center">
+          <picker class="picker" name="typeindex" value="{{typeIndex}}" range="{{typeList}}" bindchange="typeChange">
+            <view class="center-content">
+              <view class="center-input" name="member">{{typeList[typeIndex]}}</view>
+              <view class="right">
+                <view class="arrow">
+                </view>
+              </view>
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="consumption-item">
+        <view class="left">时间</view>
+        <view class="center">
+          <picker class="picker" mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
+            <view class="center-content">
+              <view class="center-input" name="member">
+                {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}}
+              </view>
+              <view class="right">
+                <view class="arrow">
+                </view>
+              </view>
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class="consumption-item">
+        <view class="left">备注</view>
+        <view class="center">
+          <view class="comment-content">
+            <input name="comment" class="comment-input" type="text" value='{{comment}}' />
+            <view class="right">
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="loc-container">
+    <view class="loc-content">
+      <view class="left">位置</view>
+      <view class="loc-name" bindtap="selectLocation" wx:if="{{hasLocation === false}}">
+        点击获取当前位置
+      </view>
+      <view class="loc-name" name="locationadd" bindtap="selectLocation" wx:if="{{hasLocation === true}}">
+        {{locName ? locName : longitude+','+latitude}}
+      </view>
+    </view>
+    <view class="map-container" hover-class="none" hover-stop-propagation="false" style="width: 100%; height:300px;">
+      <map id="map" subkey="FTKBZ-LVICU-A7WVG-4DAGQ-7D266-RNBKP" longitude="{{longitude}}" latitude=" {{latitude}}" markers="{{markers}}" scale="{{scale}}" show-location style="width: 100%; height: 100%;" data-markers="{{markers}}">
+      </map>
+    </view>
+  </view>
+
+  <view class="btn-area">
+    <button class="save-btn" formType="submit">保存</button>
+    <button class="reset-btn" formType="reset" style="margin-left:20px;">重置</button>
+  </view>
+  </form>
+</view>
