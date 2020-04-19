@@ -6,6 +6,12 @@ const toTimeStamp = util.toTimeStamp;
 const dateFormat = util.dateFormat;
 const getWeekDay = util.getWeekDay;
 const app = getApp();
+const imgPath = {};
+const { typeList,typeImg } = app.globalData;
+typeImg.forEach((item,index)=>{
+  imgPath[typeList[index]] = `/images/class/${item}.png`;
+});
+console.log(imgPath)
 Page({
 
   /**
@@ -18,7 +24,9 @@ Page({
     month: dateFormat('YYYY-mm', new Date()),
     sumCost: 0,
     sumIncome: 0,
-    dayCost: {}
+    dayCost: {},
+    classImg: imgPath,
+    typeList: app.globalData.typeList
   },
 
   /**
@@ -69,6 +77,16 @@ Page({
       month: e.detail.value
     })
     this.queryAccount(e.detail.value);
+  },
+  itemClick: function(e){
+    const { day } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: '../modify/modify',
+      success: function(res) {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit('acceptDataFromOpenerPage', day)
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面显示

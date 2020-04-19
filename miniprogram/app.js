@@ -35,8 +35,8 @@ App({
     }
     this.globalData = {
       userInfo: null,
-      typeList: ['餐饮','蔬菜','水果','礼物','交通出行', '娱乐', '购物', '旅行', '房租', '水电', '服饰', '学习', '医疗','红包','通讯','快递','其他','日用'],
-      env: '',
+      typeList: ['餐饮','蔬菜','水果','礼物','交通出行', '娱乐', '购物', '旅行', '房租', '水电', '服饰', '学习', '医疗','红包','通讯','快递','其他'],
+      typeImg: ['catering','vegetables','fruits','gift','trip','entertainment','shopping','travel','rent','hydropower','clothes','study','medical','redpacket','telephonebill','express','others'],
     }
   }
 })

@@ -2,6 +2,7 @@
 const util = require('../../common/util.js');
 const dateTimePicker = require('../../common/dateTimePicker.js');
 const curDate = util.curDate;
+const dateFormat = util.dateFormat;
 const toTimeStamp = util.toTimeStamp;
 const app = getApp();
 let list = [];
@@ -32,48 +33,57 @@ Page({
     dateTime: null,
     dateTimeArray: null,
     startYear: 2000,
-    endYear: 2050
+    endYear: 2050,
+    _id: null,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(params) {
-    // 获取位置信息
     const that = this;
-    let mpCtx = wx.createMapContext("map");
-    wx.getLocation({
-      type: "gcj02",
-      success: function(res) {
-        const latitude = res.latitude;
-        const longitude = res.longitude;
-        mpCtx.moveToLocation();
-        that.setData({
-          latitude: res.latitude,
-          longitude: res.longitude,
-          markers: [{
-            latitude: res.latitude,
-            longitude: res.longitude
-          }],
-          hasLocation: true
-        });
-      },
-      error: function(error) {
-        console.log(error);
-      }
-    });
-    
-    // 获取完整的年月日 时分秒，以及默认显示的数组
-    const obj = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
-    // const obj1 = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
-    // // 精确到分的处理，将数组的秒去掉
-    // var lastArray = obj1.dateTimeArray.pop();
-    // var lastTime = obj1.dateTime.pop();
-    console.log(obj.dateTime);
-    this.setData({
-      dateTime: obj.dateTime,
-      dateTimeArray: obj.dateTimeArray,
-    });
+    const eventChannel = that.getOpenerEventChannel();
+    // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
+    eventChannel.on('acceptDataFromOpenerPage', function(data) {
+      const { latitude,longitude,cost,comment,amoutType, name,address,type,stime, _id,date,time } = data;
+      const index = app.globalData.typeList.indexOf(type);
+      const obj = dateTimePicker.dateTimePicker(that.data.startYear, that.data.endYear);
+      const recordTime = new Date(stime);
+      let year = (recordTime.getFullYear()+'').slice(2);
+      year = parseInt(year,10);
+      const month = recordTime.getMonth();
+      const day = recordTime.getDate();
+      const hour = recordTime.getHours();
+      const minute = recordTime.getMinutes();
+      const seconds = recordTime.getSeconds();
+      console.log(month,day)
+      const arr = [year,month,day,hour,minute,seconds];
+      const dateArr = obj.dateTimeArray;
+      dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
+
+      that.setData({
+        _id,
+        latitude,
+        longitude,
+        markers: [{
+          latitude,
+          longitude
+        }],
+        hasLocation: true,
+        amoutType,
+        comment,
+        cost,
+        type,
+        date,
+        time,
+        name,
+        locName: name,
+        address: address,
+        typeIndex:index,
+        dateTime: arr,
+        dateTimeArray: dateArr,
+      });
+    })
   },
 
   /**
@@ -220,7 +230,7 @@ Page({
 
     arr[e.detail.column] = e.detail.value;
     dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
-    console.log(arr);
+
     this.setData({
       dateTimeArray: dateArr,
       dateTime: arr
@@ -245,7 +255,7 @@ Page({
     if (!app.globalData.openid){
       wx.showToast({
         icon: 'none',
-        title: '保存失败'
+        title: '修改失败'
       })
       return;
     }
@@ -263,39 +273,78 @@ Page({
     }else{
       costValue=parseFloat(cost);
     }
-    db.collection('books').add({
+    wx.cloud.init({
+      env: app.globalData.ENV,
+      traceUser: true,
+    });
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'modify',
+      // 传给云函数的参数
       data: {
-        openid:app.globalData.openid,
-        cost: costValue,
-        type: typeList[typeIndex],
-        stime: new Date(`${date} ${time}`),
-        date: date,
-        time: time,
-        comment,
-        name: locName,
-        address: address,
-        longitude,
-        latitude,
-        amoutType
+        // openid: app.globalData.openid,
+        _id: this.data._id,
+        data: {
+          cost: costValue,
+          type: typeList[typeIndex],
+          stime: new Date(`${date} ${time}`),
+          date: date,
+          time: time,
+          comment,
+          name: locName,
+          address: address,
+          longitude,
+          latitude,
+          amoutType
+        },
       },
-      success: res => {
-        wx.showToast({
-          title: '保存成功',
-          icon: 'success',
-          duration: 2000
-        });
-      },
-      fail: err => {
+    })
+      .then(res => {
+        console.log(res)
+        const { num } = res.result;
+        if(num>0){
+          wx.showToast({
+            icon: 'none',
+            title: '修改成功'
+          });
+        }
+      }).catch(err=>{
         wx.showToast({
           icon: 'none',
-          title: '保存失败'
-        })
-        console.error('[新增记录] 失败：', err)
-      }
-    });
+          title: '修改失败'
+        });
+        console.log(err);
+      });
   },
   formReset: function(e) {
-    console.log(e);
+    wx.cloud.init({
+      env: app.globalData.ENV,
+      traceUser: true,
+    });
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'delete',
+      // 传给云函数的参数
+      data: {
+        // openid: app.globalData.openid,
+        _id: this.data._id,
+      },
+    })
+      .then(res => {
+        const { num } = res.result;
+        if(num>0){
+          wx.showToast({
+            icon: 'none',
+            title: '删除成功'
+          });
+        }
+      }).catch(err=>{
+        wx.showToast({
+          icon: 'none',
+          title: '删除失败'
+        });
+        console.log(err);
+      });
   },
   unitChange: function(e){
     console.log(e.detail)

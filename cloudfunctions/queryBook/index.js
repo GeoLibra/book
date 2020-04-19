@@ -78,6 +78,9 @@ exports.main = async (event, context) => {
   });
   console.log(dayCost);
   // 等待所有
+  for(let i in dayCost){
+    dayCost[i] = dayCost[i].toFixed(2);
+  }
   return {
     dayCost,
     dateList,

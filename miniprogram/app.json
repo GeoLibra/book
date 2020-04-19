@@ -3,8 +3,8 @@
     "pages/vis/vis",
     "pages/record/record",
     "pages/list/list",
-    "pages/account",
-    "pages/account/account"
+    "pages/account/account",
+    "pages/modify/modify"
   ],
   "tabBar": {
     "selectedColor": "#1890ff",
