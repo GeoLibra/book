@@ -52,7 +52,7 @@ Page({
       let year = (recordTime.getFullYear()+'').slice(2);
       year = parseInt(year,10);
       const month = recordTime.getMonth();
-      const day = recordTime.getDate();
+      const day = recordTime.getDate() - 1;
       const hour = recordTime.getHours();
       const minute = recordTime.getMinutes();
       const seconds = recordTime.getSeconds();
@@ -223,6 +223,7 @@ Page({
     })
   },
   changeDateTime(e) {
+    console.log(e.detail.value);
     this.setData({ dateTime: e.detail.value });
   },
   changeDateTimeColumn(e) {
@@ -277,6 +278,7 @@ Page({
       env: app.globalData.ENV,
       traceUser: true,
     });
+    console.log(new Date(`${date} ${time}:${dateTimeArray[5][dateTime[5]]}`))
     wx.cloud.callFunction({
       // 云函数名称
       name: 'modify',
