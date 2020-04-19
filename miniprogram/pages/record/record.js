@@ -220,7 +220,6 @@ Page({
 
     arr[e.detail.column] = e.detail.value;
     dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
-    console.log(arr);
     this.setData({
       dateTimeArray: dateArr,
       dateTime: arr
@@ -263,12 +262,13 @@ Page({
     }else{
       costValue=parseFloat(cost);
     }
+    console.log(`${date} ${time}:${dateTimeArray[5][dateTime[5]]}`)
     db.collection('books').add({
       data: {
         openid:app.globalData.openid,
         cost: costValue,
         type: typeList[typeIndex],
-        stime: new Date(`${date} ${time}`),
+        stime: new Date(`${date} ${time}:${dateTimeArray[5][dateTime[5]]}`),
         date: date,
         time: time,
         comment,

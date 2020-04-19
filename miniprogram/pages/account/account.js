@@ -11,7 +11,6 @@ const { typeList,typeImg } = app.globalData;
 typeImg.forEach((item,index)=>{
   imgPath[typeList[index]] = `/images/class/${item}.png`;
 });
-console.log(imgPath)
 Page({
 
   /**

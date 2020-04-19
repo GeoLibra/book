@@ -24,7 +24,8 @@ exports.main = async(event, context) => {
   })
   .match({
     year: db.command.eq(year),
-    month: db.command.eq(month)
+    month: db.command.eq(month),
+    _openid: db.command.eq(wxContext.OPENID),
   })
   .group({
      // 按 date 字段分组

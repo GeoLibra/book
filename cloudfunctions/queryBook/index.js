@@ -22,7 +22,8 @@ exports.main = async (event, context) => {
       month: $.month('$stime')
     })
     .match({
-      month: db.command.eq(month)
+      month: db.command.eq(month),
+      _openid: db.command.eq(wxContext.OPENID),
     }).group({
       _id: null,
       count: $.sum(1),

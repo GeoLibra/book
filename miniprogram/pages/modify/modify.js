@@ -47,7 +47,7 @@ Page({
     eventChannel.on('acceptDataFromOpenerPage', function(data) {
       const { latitude,longitude,cost,comment,amoutType, name,address,type,stime, _id,date,time } = data;
       const index = app.globalData.typeList.indexOf(type);
-      const obj = dateTimePicker.dateTimePicker(that.data.startYear, that.data.endYear);
+      
       const recordTime = new Date(stime);
       let year = (recordTime.getFullYear()+'').slice(2);
       year = parseInt(year,10);
@@ -58,9 +58,9 @@ Page({
       const seconds = recordTime.getSeconds();
       console.log(month,day)
       const arr = [year,month,day,hour,minute,seconds];
+      const obj = dateTimePicker.dateTimePicker(that.data.startYear, that.data.endYear);
       const dateArr = obj.dateTimeArray;
       dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
-
       that.setData({
         _id,
         latitude,
@@ -287,7 +287,7 @@ Page({
         data: {
           cost: costValue,
           type: typeList[typeIndex],
-          stime: new Date(`${date} ${time}`),
+          stime: new Date(`${date} ${time}:${dateTimeArray[5][dateTime[5]]}`),
           date: date,
           time: time,
           comment,

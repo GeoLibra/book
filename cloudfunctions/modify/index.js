@@ -10,14 +10,29 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const _id = event._id;
   const data = event.data;
+
+  // const res = await db.collection('books').doc(
+  //   _id
+  // ).set({
+  //   data: {
+  //     ...data,
+  //     stime: new Date(data.stime)
+  //   }
+  // });
   const res = await db.collection('books').where({
-    _id
+    _id,
+    _openid: wxContext.OPENID
   }).update({
-    data,
+    data: {
+      ...data, 
+      stime: new Date(data.stime)
+    },
   });
   console.log(res)
-  const { stats } = res;
-  
+  const {
+    stats
+  } = res;
+
   return {
     num: stats.updated,
     event,
